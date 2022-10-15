@@ -152,7 +152,7 @@ def recognizer_predict(model, converter, test_loader, batch_max_length,\
 
 def get_recognizer(recog_network, network_params, character,\
                    separator_list, dict_list, model_path,\
-                   device = 'cpu', quantize = True):
+                   device = 'cpu', quantize = True, path_weight_model=path_weight_model):
 
     converter = CTCLabelConverter(character, separator_list, dict_list)
     num_class = len(converter.character)
@@ -166,7 +166,7 @@ def get_recognizer(recog_network, network_params, character,\
     model = model_pkg.Model(num_class=num_class, **network_params)
 
     if device == 'cpu':
-        state_dict = torch.load(model_path, map_location=device)
+        state_dict = torch.load(path_weight_model, map_location=device)
         new_state_dict = OrderedDict()
         for key, value in state_dict.items():
             new_key = key[7:]
@@ -179,7 +179,7 @@ def get_recognizer(recog_network, network_params, character,\
                 pass
     else:
         model = torch.nn.DataParallel(model).to(device)
-        model.load_state_dict(torch.load(model_path, map_location=device))
+        model.load_state_dict(torch.load(path_weight_model, map_location=device))
 
     return model, converter
 
