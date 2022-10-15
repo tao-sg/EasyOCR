@@ -32,7 +32,7 @@ class Reader(object):
                  user_network_directory=None, detect_network="craft", 
                  recog_network='standard', download_enabled=True, 
                  detector=True, recognizer=True, verbose=True, 
-                 quantize=True, cudnn_benchmark=False):
+                 quantize=True, cudnn_benchmark=False, path_weight_model=None):
         """Create an EasyOCR Reader
 
         Parameters:
@@ -226,7 +226,7 @@ class Reader(object):
                 network_params = recog_config['network_params']
             self.recognizer, self.converter = get_recognizer(recog_network, network_params,\
                                                          self.character, separator_list,\
-                                                         dict_list, model_path, device = self.device, quantize=quantize)
+                                                         dict_list, model_path, device = self.device, quantize=quantize, path_weight_model=path_weight_model)
 
     def getDetectorPath(self, detect_network):
         if detect_network in self.support_detection_network:
