@@ -152,7 +152,7 @@ def recognizer_predict(model, converter, test_loader, batch_max_length,\
 
 def get_recognizer(recog_network, network_params, character,\
                    separator_list, dict_list, model_path,\
-                   device = 'cpu', quantize = True, path_weight_model=path_weight_model):
+                   device = 'cpu', quantize = True, path_weight_model=None):
 
     converter = CTCLabelConverter(character, separator_list, dict_list)
     num_class = len(converter.character)
